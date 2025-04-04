@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Frontend Mentor | Character counter</title>
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <img src="./assets/images/logo-light-theme.svg" alt=" Logo" class="logo" />
+      <img src="./assets/images/icon-moon.svg" alt="moon-icon" class="icon" />
+    </header>
+
+    <p class="heading">Analyze your text <br>in real-time.</p>
+
+    <textarea class="text-area" placeholder="Start typing here… (or paste your text)"></textarea>
+
+    <div class="options">
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox"> Exclude Spaces
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox"> Set Character Limit
+        </label>
+      </div>
+      <div class="reading-time">Approx. reading time: <1 minute</div>
+    </div>
+
+    <section class="stats-container">
+      <div class="stat purple">
+        <div>
+          <div class="stat-value">278</div>
+          <div class="stat-label">Total Characters</div>
+        </div>
+        <img src="./assets/images/pattern-character-count.svg" alt="pattern-character-count" class="stat-icon" />
+      </div>
+    
+      <div class="stat orange">
+        <div>
+          <div class="stat-value">39</div>
+          <div class="stat-label">Word Count</div>
+        </div>
+        <img src="./assets/images/pattern-word-count.svg" alt="pattern-word-count" class="stat-icon" />
+      </div>
+    
+      <div class="stat red">
+        <div>
+          <div class="stat-value">04</div>
+          <div class="stat-label">Sentence Count</div>
+        </div>
+        <img src="./assets/images/pattern-sentence-count.svg" alt="pattern-sentence-count" class="stat-icon" />
+      </div>
+    </section>
+    
+    
+    
+
+    <section class="density">
+      <h2>Letter Density</h2>
+    
+      <div class="letter-row">
+        <span>E</span>
+        <div class="bar-container">
+          <div class="bar" style="width: 16%"></div>
+        </div>
+        <span>40 (16.06%)</span>
+      </div>
+    
+      <div class="letter-row">
+        <span>I</span>
+        <div class="bar-container">
+          <div class="bar" style="width: 11%"></div>
+        </div>
+        <span>29 (11.65%)</span>
+      </div>
+    
+      <div class="letter-row">
+        <span>T</span>
+        <div class="bar-container">
+          <div class="bar" style="width: 11%"></div>
+        </div>
+        <span>28 (11.24%)</span>
+      </div>
+    
+      <div class="letter-row">
+        <span>O</span>
+        <div class="bar-container">
+          <div class="bar" style="width: 8%"></div>
+        </div>
+        <span>22 (8.84%)</span>
+      </div>
+    
+      <div class="letter-row">
+        <span>N</span>
+        <div class="bar-container">
+          <div class="bar" style="width: 8%"></div>
+        </div>
+        <span>21 (8.43%)</span>
+      </div>
+    
+      <div class="see-more">
+        See more ▼
+      </div>
+    </section>
+    
+  </main>
+</body>
+</html>
+ 

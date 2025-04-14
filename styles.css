@@ -237,12 +237,7 @@ body {
 
 
 
-/* .char-limit-indicator {
-  text-align: right;
-  margin-top: 8px;
-  font-size:  14px;
-  color: #666;
-} */
+
 
 /* Responsive styles */
 @media (max-width: 768px) {
@@ -290,4 +285,6 @@ body {
     margin-bottom: 10px;
   }
 }
+ 
+
 

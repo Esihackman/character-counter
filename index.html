@@ -10,8 +10,8 @@
 <body>
   <main class="container">
     <header class="header">
-      <img src="./assets/images/logo-light-theme.svg" alt=" Logo" class="logo" />
-      <img src="./assets/images/icon-moon.svg" alt="moon-icon" class="icon" />
+      <img src="./assets/images/logo-light-theme.svg" alt="Logo" class="logo" />
+      <img src="./assets/images/icon-moon.svg" alt="moon-icon" class="icon" id="theme-toggle" />
     </header>
 
     <p class="heading">Analyze your text <br>in real-time.</p>
@@ -21,13 +21,13 @@
     <div class="options">
       <div class="checkbox-group">
         <label class="checkbox-label">
-          <input type="checkbox"> Exclude Spaces
+          <input type="checkbox" /> Exclude Spaces
         </label>
         <label class="checkbox-label">
-          <input type="checkbox"> Set Character Limit
+          <input type="checkbox" /> Set Character Limit
         </label>
       </div>
-      <div class="reading-time">Approx. reading time: <1 minute</div>
+      <div class="reading-time">Approx. reading time: &lt;1 minute</div>
     </div>
 
     <section class="stats-container">
@@ -55,59 +55,56 @@
         <img src="./assets/images/pattern-sentence-count.svg" alt="pattern-sentence-count" class="stat-icon" />
       </div>
     </section>
-    
-    
-    
 
     <section class="density">
       <h2>Letter Density</h2>
-    
+
       <div class="letter-row">
-        <span>E</span>
+        <span class="letter-label">E</span>
         <div class="bar-container">
           <div class="bar" style="width: 16%"></div>
         </div>
-        <span>40 (16.06%)</span>
+        <span class="letter-value">40 (16.06%)</span>
       </div>
-    
+
       <div class="letter-row">
-        <span>I</span>
+        <span class="letter-label">I</span>
         <div class="bar-container">
           <div class="bar" style="width: 11%"></div>
         </div>
-        <span>29 (11.65%)</span>
+        <span class="letter-value">29 (11.65%)</span>
       </div>
-    
+
       <div class="letter-row">
-        <span>T</span>
+        <span class="letter-label">T</span>
         <div class="bar-container">
           <div class="bar" style="width: 11%"></div>
         </div>
-        <span>28 (11.24%)</span>
+        <span class="letter-value">28 (11.24%)</span>
       </div>
-    
+
       <div class="letter-row">
-        <span>O</span>
+        <span class="letter-label">O</span>
         <div class="bar-container">
           <div class="bar" style="width: 8%"></div>
         </div>
-        <span>22 (8.84%)</span>
+        <span class="letter-value">22 (8.84%)</span>
       </div>
-    
+
       <div class="letter-row">
-        <span>N</span>
+        <span class="letter-label">N</span>
         <div class="bar-container">
           <div class="bar" style="width: 8%"></div>
         </div>
-        <span>21 (8.43%)</span>
+        <span class="letter-value">21 (8.43%)</span>
       </div>
-    
+
       <div class="see-more">
         See more ▼
       </div>
     </section>
-    
+    <div id="toast-container"></div>
+    <script src="script.js"></script>
   </main>
-  
 </body>
 </html>

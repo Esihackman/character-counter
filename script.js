@@ -201,9 +201,18 @@ function showAllLetters() {
 let showMore = false;
 document.querySelector(".see-more").addEventListener("click", function () {
   showMore = !showMore;
+
+  // Update text
+  const textEl = this.querySelector(".see-text");
+  textEl.textContent = showMore ? "See less" : "See more";
+
+  // Toggle arrow direction using class
+  this.querySelector(".arrow-icon").classList.toggle("rotate-up");
+
+  // Your letter toggling functions
   showMore ? showAllLetters() : showTopLetters(5);
-  this.textContent = showMore ? "See less ▼" : "See more ▲";
 });
+
 
 // Start
 setupLetters();

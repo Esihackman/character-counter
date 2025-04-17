@@ -33,14 +33,12 @@
 }
 
 body {
-  body {
+   
     font-family: "DM Sans", sans-serif;
     background: url('./assets/images/bg-light-theme.png') no-repeat center center fixed;
     background-size: cover;
     color: #12131A;
     line-height: 1.5;
-  }
-  
 }
 
 .container {
@@ -105,11 +103,20 @@ body {
 .text-area.limit-warning {
   border: 1px solid #DA3701;
 }
+.text-area {
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+}
 
 .text-area:hover {
-  border:2px solid #D3A0FA;
-  
+  border-color: #D3A0FA;
 }
+
+/* Dark theme hover */
+body.dark-theme .text-area:hover {
+  border-color: #DA3701;
+}
+
 
 body.dark-theme .icon:hover {
   background-color: #3A3B48;
@@ -264,9 +271,12 @@ body.dark-theme .text-area:hover {
 
 .bar {
   height: 100%;
+  width: 0%; /* This will be updated dynamically via JS */
   background-color: #D3A0FA;
   border-radius: 6px;
+  transition: width 0.3s ease-in-out;
 }
+
 
 .letter-row span:last-child {
   font-size: 14px;
@@ -274,14 +284,32 @@ body.dark-theme .text-area:hover {
 }
 
 .see-more {
-  text-align: left;
-  margin-top: 20px;
-  font-size: 20px;
-  line-height: 140%;
-  letter-spacing: -0.6px;
-  color: #12131A;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 16px;
   cursor: pointer;
+  color: #2A2B37;
+  transition: color 0.3s;
 }
+
+.arrow-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+
+/* .rotate-up {
+  transform: rotate(180deg);
+} */
+
+
+/* When active (expanded) */
+.see-more.active .arrow-icon {
+  transform: rotate(180deg);
+}
+
 
 .progress-active {
   position: absolute;
@@ -345,9 +373,12 @@ body.dark-theme {
   background-color: #12131A;
 }
 
-body.dark-theme .container {
-  background: url('./assets/images/bg-dark-theme.png');
-}
+
+  body.dark-theme {
+    background: url('./assets/images/bg-dark-theme.png') no-repeat center center fixed;
+    background-size: cover;
+  }
+
 
 body.dark-theme .icon {
   background-color: #2A2B37;

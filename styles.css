@@ -75,9 +75,9 @@ body {
   cursor: pointer;
 }
 
-.icon:hover {
+/* .icon:hover {
   background-color: #D3A0FA;
-}
+} */
 
 .heading {
   text-align: center;
@@ -103,11 +103,12 @@ body {
 }
 
 .text-area.limit-warning {
-  border: 2px solid #DA3701;
+  border: 1px solid #DA3701;
 }
 
 .text-area:hover {
-  border-color: #D3A0FA;
+  border:2px solid #D3A0FA;
+  
 }
 
 body.dark-theme .icon:hover {

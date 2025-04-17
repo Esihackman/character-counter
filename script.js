@@ -1,112 +1,210 @@
-// Theme toggle
-const themeToggle = document.getElementById("theme-toggle");
-let isDark = false;
+// Selecting DOM Elements 
+const themeBtn = document.getElementById("theme-toggle");
+const textarea = document.querySelector(".text-area");
+const charCountEl = document.querySelectorAll(".stat-value")[0];
+const wordCountEl = document.querySelectorAll(".stat-value")[1];
+const sentenceCountEl = document.querySelectorAll(".stat-value")[2];
+const readingTimeEl = document.querySelector(".reading-time");
+const noSpacesCheckbox = document.querySelectorAll("input[type='checkbox']")[0];
+const limitCheckbox = document.querySelectorAll("input[type='checkbox']")[1];
+const emptyMessage = document.querySelector(".empty-message");
+const limitMsg = document.querySelector(".limit-message");
+const limitText = document.querySelector(".limit-text");
 
-themeToggle.addEventListener("click", () => {
+// Theme Toggle 
+let darkMode = false;
+themeBtn.addEventListener("click", function () {
   document.body.classList.toggle("dark-theme");
-  isDark = !isDark;
+  darkMode = !darkMode;
 
-  // Toggle icons
-  themeToggle.src = isDark
-    ? "./assets/images/icon-sun.svg"
-    : "./assets/images/icon-moon.svg";
-  themeToggle.alt = isDark ? "sun-icon" : "moon-icon";
+  themeBtn.src = darkMode ? "./assets/images/icon-sun.svg" : "./assets/images/icon-moon.svg";
+  themeBtn.alt = darkMode ? "sun-icon" : "moon-icon";
 
-  // Toggle logo
   const logo = document.querySelector(".logo");
-  logo.src = isDark
-    ? "./assets/images/logo-dark-theme.svg"
-    : "./assets/images/logo-light-theme.svg";
+  logo.src = darkMode ? "./assets/images/logo-dark-theme.svg" : "./assets/images/logo-light-theme.svg";
+});
+let limitValue = null;
+
+// Add Limit 
+limitCheckbox.addEventListener("change", function () {
+  let input = document.getElementById("limit-input");
+
+  if (!input) {
+    input = document.createElement("input");
+    input.type = "number";
+    input.id = "limit-input";
+    input.style.width = "31px";
+    input.style.height = "21px";
+    input.style.marginLeft = "8px";
+    limitCheckbox.parentNode.appendChild(input);
+
+    input.addEventListener("input", function () {
+      limitValue = parseInt(input.value) || null;
+      hideLimitWarning();
+      updateStats();
+    });
+  }
+
+  input.style.display = limitCheckbox.checked ? "inline-block" : "none";
+
+  if (!limitCheckbox.checked) {
+    limitValue = null;
+    hideLimitWarning();
+  }
 });
 
-const textarea = document.querySelector('.text-area');
-const charStat = document.querySelectorAll('.stat-value')[0];
-const wordStat = document.querySelectorAll('.stat-value')[1];
-const sentenceStat = document.querySelectorAll('.stat-value')[2];
-const readingTimeEl = document.querySelector('.reading-time');
-const excludeSpacesCheckbox = document.querySelectorAll('input[type="checkbox"]')[0];
-const setLimitCheckbox = document.querySelectorAll('input[type="checkbox"]')[1];
-const CHAR_LIMIT = 280;
-
-textarea.addEventListener('input', updateStats);
-
-function updateStats() {
+//Input Listener
+textarea.addEventListener("input", function () {
   let text = textarea.value;
 
-  // Exclude spaces if checkbox is checked
-  let charCount = excludeSpacesCheckbox.checked ? text.replace(/\s/g, '').length : text.length;
+  emptyMessage.style.display = text.trim() === "" ? "block" : "none";
 
-  const words = text.trim().split(/\s+/).filter(Boolean);
-  const wordCount = words.length;
-
-  const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0);
-  const sentenceCount = sentences.length;
-
-  // Update UI stats
-  charStat.textContent = charCount;
-  wordStat.textContent = wordCount;
-  sentenceStat.textContent = sentenceCount;
-
-  // Estimated reading time: avg 200 words per min
-  const readingTime = wordCount > 0 ? `${Math.ceil(wordCount / 200)} min` : '<1 minute';
-  readingTimeEl.textContent = `Approx. reading time: ${readingTime}`;
-
-  // Character limit warning
-  if (setLimitCheckbox.checked && charCount > CHAR_LIMIT) {
-    textarea.style.borderColor = 'red';
-    charStat.parentElement.classList.add('warning');
-
-    // Only show one toast at a time
-    if (!document.querySelector('.toast')) {
-      showToast(`Character limit of ${CHAR_LIMIT} exceeded!`);
+  if (limitCheckbox.checked && limitValue) {
+    if (text.length >= limitValue) {
+      textarea.value = text.slice(0, limitValue);
+      showLimitWarning();
+    } else {
+      hideLimitWarning();
     }
-  } else {
-    textarea.style.borderColor = '';
-    charStat.parentElement.classList.remove('warning');
   }
+updateStats();
+});
 
-  // Update letter density
-  updateLetterDensity(text);
+noSpacesCheckbox.addEventListener("change", updateStats);
+
+// Show / Hide Limit Warning 
+function hideLimitWarning() {
+  textarea.classList.remove("container-warning");
+  charCountEl.parentElement.classList.remove("warning");
+
+  if (limitMsg) {
+    limitMsg.style.display = "none";
+
+    // Optional: clear the message
+    if (limitText) {
+      limitText.textContent = "";
+    }
+  }
 }
 
-// Letter frequency analysis
-function updateLetterDensity(text) {
-  const letterRows = document.querySelectorAll('.letter-row');
-  const letterCounts = {};
-  let totalLetters = 0;
+function showLimitWarning() {
+  textarea.classList.add("container-warning");
+  charCountEl.parentElement.classList.add("warning");
 
-  for (let char of text.toUpperCase()) {
-    if (char >= 'A' && char <= 'Z') {
-      letterCounts[char] = (letterCounts[char] || 0) + 1;
-      totalLetters++;
-    }
+  if (limitMsg && limitText) {
+    limitText.textContent = `Limit reached! Your text exceeds ${limitValue} characters.`;
+    limitMsg.style.display = "flex";
+  }
+}
+
+// Update Stats
+function updateStats() {
+  let text = textarea.value;
+  let chars = noSpacesCheckbox.checked ? text.replace(/\s/g, "") : text;
+let charCount = chars.length;
+  let wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+  let sentenceCount = text.split(/[.!?]+/).filter(s => s.trim()).length;
+  let readingTime = wordCount > 0 ? Math.ceil(wordCount / 200) : 0;
+
+ charCountEl.textContent = String(charCount).padStart(2, '0');
+  wordCountEl.textContent = String(wordCount).padStart(2, '0');
+  sentenceCountEl.textContent = String(sentenceCount).padStart(2, '0');
+  readingTimeEl.textContent = `Approx. reading time: ${readingTime} minute${readingTime !== 1 ? "s" : ""}`;
+
+  if (limitCheckbox.checked && limitValue && charCount >= limitValue) {
+    showLimitWarning();
+  } else {
+    hideLimitWarning();
   }
 
-  letterRows.forEach(row => {
-    const letter = row.dataset.letter;
-    const count = letterCounts[letter] || 0;
-    const percent = totalLetters > 0 ? ((count / totalLetters) * 100).toFixed(2) : 0;
+  updateLetters(text);
+}
+//  Letter Density 
+function updateLetters(text) {
+  const container = document.querySelector(".density");
+  const seeMore = document.querySelector(".see-more");
+  const counts = {};
+  let total = 0;
 
-    const bar = row.querySelector('.bar');
-    const percentSpan = row.querySelector('.percentage');
+  if (text.trim() !== "") {
+    for (let c of text.toUpperCase()) {
+      if (/[A-Z]/.test(c)) {
+        counts[c] = (counts[c] || 0) + 1;
+        total++;
+      }
+    }
 
-    bar.style.width = `${percent}%`;
-    percentSpan.textContent = `${count} (${percent}%)`;
+    let sorted = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+    let allLetters = sorted.concat("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter(l => !counts[l]));
+
+    document.querySelectorAll(".letter-row").forEach(row => row.remove());
+
+    allLetters.forEach(letter => {
+      let count = counts[letter] || 0;
+      let percent = total ? ((count / total) * 100).toFixed(1) : 0;
+
+      let row = document.createElement("div");
+      row.className = "letter-row";
+      row.dataset.letter = letter;
+      row.style.display = showMore ? "flex" : "none";
+
+      row.innerHTML = `
+        <span class="letter-label">${letter}</span>
+        <div class="bar-container"><div class="bar" style="width: ${percent}%"></div></div>
+        <span class="percentage">${count} (${percent}%)</span>
+      `;
+
+      if (count > 0) row.classList.add("highlighted");
+      container.insertBefore(row, seeMore);
+    });
+
+    if (!showMore) showTopLetters(5);
+  } else {
+    document.querySelectorAll(".letter-row").forEach(row => {
+      row.style.display = "none";
+    });
+  }
+}
+
+function setupLetters() {
+  const container = document.querySelector(".density");
+  const seeMore = document.querySelector(".see-more");
+
+  for (let letter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+    let row = document.createElement("div");
+    row.className = "letter-row";
+    row.dataset.letter = letter;
+    row.style.display = "none";
+
+    row.innerHTML = `
+      <span class="letter-label">${letter}</span>
+      <div class="bar-container"><div class="bar"></div></div>
+      <span class="percentage">0 (0%)</span>
+    `;
+
+    container.insertBefore(row, seeMore);
+  }
+}
+
+function showTopLetters(n) {
+  document.querySelectorAll(".letter-row").forEach((row, i) => {
+    row.style.display = i < n ? "flex" : "none";
   });
 }
 
-// Toast alert
-function showToast(message) {
-  const toast = document.createElement("div");
-  toast.classList.add("toast");
-  toast.textContent = message;
-
-  const container = document.getElementById("toast-container");
-  container.appendChild(toast);
-
-  // Remove toast after 4 seconds
-  setTimeout(() => {
-    toast.remove();
-  }, 4000);
+function showAllLetters() {
+  document.querySelectorAll(".letter-row").forEach(row => {
+    row.style.display = "flex";
+  });
 }
 
+let showMore = false;
+document.querySelector(".see-more").addEventListener("click", function () {
+  showMore = !showMore;
+  showMore ? showAllLetters() : showTopLetters(5);
+  this.textContent = showMore ? "See less ▼" : "See more ▲";
+});
+
+// Start
+setupLetters();
+updateStats();

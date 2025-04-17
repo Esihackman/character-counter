@@ -13,98 +13,62 @@
       <img src="./assets/images/logo-light-theme.svg" alt="Logo" class="logo" />
       <img src="./assets/images/icon-moon.svg" alt="moon-icon" class="icon" id="theme-toggle" />
     </header>
-
+    
     <p class="heading">Analyze your text <br>in real-time.</p>
-
-    <textarea class="text-area" placeholder="Start typing here… (or paste your text)"></textarea>
-
+    
+    <textarea class="text-area" placeholder="Start typing here… (or paste your text)"  ></textarea>
+    <p class="limit-message">
+      <img src="./assets/images/icon-info.svg" alt="warning icon" />
+      <span class="limit-text">Limit reached! Your text exceeds  characters.</span>
+    </p>
+    
     <div class="options">
       <div class="checkbox-group">
         <label class="checkbox-label">
-          <input type="checkbox" /> Exclude Spaces
+          <input type="checkbox" id="exclude-spaces" /> Exclude Spaces
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" /> Set Character Limit
+          <input type="checkbox" id="set-character-limit" /> Set Character Limit
+          
         </label>
       </div>
-      <div class="reading-time">Approx. reading time: &lt;1 minute</div>
-    </div>
+      <div class="reading-time">Approx. reading time: 0 minutes</div>
 
+    </div>
+    
     <section class="stats-container">
       <div class="stat purple">
         <div>
-          <div class="stat-value">278</div>
+          <div class="stat-value">00</div>
           <div class="stat-label">Total Characters</div>
         </div>
         <img src="./assets/images/pattern-character-count.svg" alt="pattern-character-count" class="stat-icon" />
       </div>
-    
+        
       <div class="stat orange">
         <div>
-          <div class="stat-value">39</div>
+          <div class="stat-value">00</div>
           <div class="stat-label">Word Count</div>
         </div>
         <img src="./assets/images/pattern-word-count.svg" alt="pattern-word-count" class="stat-icon" />
       </div>
-    
+        
       <div class="stat red">
         <div>
-          <div class="stat-value">04</div>
+          <div class="stat-value">00 </div>
           <div class="stat-label">Sentence Count</div>
         </div>
         <img src="./assets/images/pattern-sentence-count.svg" alt="pattern-sentence-count" class="stat-icon" />
       </div>
     </section>
-
+    
     <section class="density">
+      <p class="empty-message">No character found. start typing to see letter density.</p>
       <h2>Letter Density</h2>
-
-      <div class="letter-row">
-        <span class="letter-label">E</span>
-        <div class="bar-container">
-          <div class="bar" style="width: 16%"></div>
-        </div>
-        <span class="letter-value">40 (16.06%)</span>
-      </div>
-
-      <div class="letter-row">
-        <span class="letter-label">I</span>
-        <div class="bar-container">
-          <div class="bar" style="width: 11%"></div>
-        </div>
-        <span class="letter-value">29 (11.65%)</span>
-      </div>
-
-      <div class="letter-row">
-        <span class="letter-label">T</span>
-        <div class="bar-container">
-          <div class="bar" style="width: 11%"></div>
-        </div>
-        <span class="letter-value">28 (11.24%)</span>
-      </div>
-
-      <div class="letter-row">
-        <span class="letter-label">O</span>
-        <div class="bar-container">
-          <div class="bar" style="width: 8%"></div>
-        </div>
-        <span class="letter-value">22 (8.84%)</span>
-      </div>
-
-      <div class="letter-row">
-        <span class="letter-label">N</span>
-        <div class="bar-container">
-          <div class="bar" style="width: 8%"></div>
-        </div>
-        <span class="letter-value">21 (8.43%)</span>
-      </div>
-
-      <div class="see-more">
-        See more ▼
-      </div>
+      
+      <div class="see-more">See more ▼</div>
     </section>
-    <div id="toast-container"></div>
     <script src="script.js"></script>
-  </main>
+  </main> 
 </body>
 </html>

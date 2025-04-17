@@ -54,6 +54,7 @@ body {
   justify-content: space-between;
   gap: 16px;
   width: 100%;
+  
 }
 
 .icon {
@@ -91,6 +92,7 @@ body {
   padding: 20px;
   font-size: 20px;
   margin-bottom: 20px;
+  border: 2px solid #DA3701;
 }
 
 .text-area.limit-warning {
@@ -141,6 +143,7 @@ body.dark-theme .text-area:hover {
   line-height: 130%;
   letter-spacing: -0.3px;
   color: #12131A;
+  margin-bottom: 30px;
 }
 
 .checkbox-group {

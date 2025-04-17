@@ -33,14 +33,17 @@
 }
 
 body {
-  font-family: "DM Sans", sans-serif;
-  background-color: #f5f5f5;
-  color: #12131A;
-  line-height: 1.5;
+  body {
+    font-family: "DM Sans", sans-serif;
+    background: url('./assets/images/bg-light-theme.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #12131A;
+    line-height: 1.5;
+  }
+  
 }
 
 .container {
-  background: url('./assets/images/bg-light-theme.png');
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
@@ -48,14 +51,15 @@ body {
   min-height: 100vh;
 }
 
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   width: 100%;
-  margin-bottom: 20px;
-  margin-top: 40px;
+  margin-bottom: 30px;
+   margin-top: 20px;
   
 }
 
@@ -95,7 +99,7 @@ body {
   padding: 20px;
   font-size: 20px;
   margin-bottom: 20px;
-  border: 2px solid #DA3701;
+  /* border: 2px solid #DA3701; */
 }
 
 .text-area.limit-warning {

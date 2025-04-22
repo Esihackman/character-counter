@@ -1,15 +1,20 @@
 // Selecting DOM Elements 
 const themeBtn = document.getElementById("theme-toggle");
 const textarea = document.querySelector(".text-area");
-const charCountEl = document.querySelectorAll(".stat-value")[0];
-const wordCountEl = document.querySelectorAll(".stat-value")[1];
-const sentenceCountEl = document.querySelectorAll(".stat-value")[2];
+
+const charCountEl = document.querySelector(".stat.purple .stat-value");
+const wordCountEl = document.querySelector(".stat.orange .stat-value");
+const sentenceCountEl = document.querySelector(".stat.red .stat-value");
+
 const readingTimeEl = document.querySelector(".reading-time");
-const noSpacesCheckbox = document.querySelectorAll("input[type='checkbox']")[0];
-const limitCheckbox = document.querySelectorAll("input[type='checkbox']")[1];
+
+const noSpacesCheckbox = document.getElementById("exclude-spaces");
+const limitCheckbox = document.getElementById("set-character-limit");
+
 const emptyMessage = document.querySelector(".empty-message");
 const limitMsg = document.querySelector(".limit-message");
 const limitText = document.querySelector(".limit-text");
+
 
 // Theme Toggle 
 let darkMode = false;

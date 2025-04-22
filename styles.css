@@ -97,7 +97,7 @@ body {
   padding: 20px;
   font-size: 20px;
   margin-bottom: 20px;
-  /* border: 2px solid #DA3701; */
+   border: 2px solid #D3A0FA; 
 }
 
 .text-area.limit-warning {
@@ -121,7 +121,7 @@ body.dark-theme .text-area:hover {
 body.dark-theme .icon:hover {
   background-color: #3A3B48;
   transform: scale(1.1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); */
 }
 
 body.dark-theme .text-area:hover {

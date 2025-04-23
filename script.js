@@ -1,23 +1,23 @@
 // Selecting DOM Elements 
 const themeBtn = document.getElementById("theme-toggle");
 const textarea = document.querySelector(".text-area");
-
 const charCountEl = document.querySelector(".stat.purple .stat-value");
 const wordCountEl = document.querySelector(".stat.orange .stat-value");
 const sentenceCountEl = document.querySelector(".stat.red .stat-value");
-
 const readingTimeEl = document.querySelector(".reading-time");
-
 const noSpacesCheckbox = document.getElementById("exclude-spaces");
 const limitCheckbox = document.getElementById("set-character-limit");
-
 const emptyMessage = document.querySelector(".empty-message");
 const limitMsg = document.querySelector(".limit-message");
 const limitText = document.querySelector(".limit-text");
+const densityContainer = document.querySelector(".density");
+const seeMoreBtn = document.querySelector(".see-more");
 
+let showMore = false;
+let limitValue = null;
+let darkMode = false;
 
 // Theme Toggle 
-let darkMode = false;
 themeBtn.addEventListener("click", function () {
   document.body.classList.toggle("dark-theme");
   darkMode = !darkMode;
@@ -28,9 +28,8 @@ themeBtn.addEventListener("click", function () {
   const logo = document.querySelector(".logo");
   logo.src = darkMode ? "./assets/images/logo-dark-theme.svg" : "./assets/images/logo-light-theme.svg";
 });
-let limitValue = null;
 
-// Add Limit 
+// Character Limit Checkbox
 limitCheckbox.addEventListener("change", function () {
   let input = document.getElementById("limit-input");
 
@@ -38,9 +37,7 @@ limitCheckbox.addEventListener("change", function () {
     input = document.createElement("input");
     input.type = "number";
     input.id = "limit-input";
-    input.style.width = "31px";
-    input.style.height = "21px";
-    input.style.marginLeft = "8px";
+    input.className = "limit-input";
     limitCheckbox.parentNode.appendChild(input);
 
     input.addEventListener("input", function () {
@@ -58,65 +55,62 @@ limitCheckbox.addEventListener("change", function () {
   }
 });
 
-//Input Listener
+// Input Listener
 textarea.addEventListener("input", function () {
   let text = textarea.value;
-
   emptyMessage.style.display = text.trim() === "" ? "block" : "none";
 
+  let chars = noSpacesCheckbox.checked ? text.replace(/\s/g, "") : text;
+  let charCount = chars.length;
+
   if (limitCheckbox.checked && limitValue) {
-    if (text.length >= limitValue) {
+    if (charCount > limitValue) {
       textarea.value = text.slice(0, limitValue);
       showLimitWarning();
     } else {
       hideLimitWarning();
     }
   }
-updateStats();
+
+  updateStats();
 });
 
 noSpacesCheckbox.addEventListener("change", updateStats);
 
 // Show / Hide Limit Warning 
-function hideLimitWarning() {
-  textarea.classList.remove("container-warning");
-  charCountEl.parentElement.classList.remove("warning");
-
-  if (limitMsg) {
-    limitMsg.style.display = "none";
-
-    // Optional: clear the message
-    if (limitText) {
-      limitText.textContent = "";
-    }
-  }
-}
-
 function showLimitWarning() {
   textarea.classList.add("container-warning");
   charCountEl.parentElement.classList.add("warning");
-
   if (limitMsg && limitText) {
     limitText.textContent = `Limit reached! Your text exceeds ${limitValue} characters.`;
     limitMsg.style.display = "flex";
   }
 }
 
-// Update Stats
+function hideLimitWarning() {
+  textarea.classList.remove("container-warning");
+  charCountEl.parentElement.classList.remove("warning");
+  if (limitMsg) {
+    limitMsg.style.display = "none";
+    if (limitText) limitText.textContent = "";
+  }
+}
+
+// Update Statistics
 function updateStats() {
   let text = textarea.value;
   let chars = noSpacesCheckbox.checked ? text.replace(/\s/g, "") : text;
-let charCount = chars.length;
+  let charCount = chars.length;
   let wordCount = text.trim().split(/\s+/).filter(Boolean).length;
   let sentenceCount = text.split(/[.!?]+/).filter(s => s.trim()).length;
   let readingTime = wordCount > 0 ? Math.ceil(wordCount / 200) : 0;
 
- charCountEl.textContent = String(charCount).padStart(2, '0');
+  charCountEl.textContent = String(charCount).padStart(2, '0');
   wordCountEl.textContent = String(wordCount).padStart(2, '0');
   sentenceCountEl.textContent = String(sentenceCount).padStart(2, '0');
   readingTimeEl.textContent = `Approx. reading time: ${readingTime} minute${readingTime !== 1 ? "s" : ""}`;
 
-  if (limitCheckbox.checked && limitValue && charCount >= limitValue) {
+  if (limitCheckbox.checked && limitValue && charCount > limitValue) {
     showLimitWarning();
   } else {
     hideLimitWarning();
@@ -124,10 +118,9 @@ let charCount = chars.length;
 
   updateLetters(text);
 }
-//  Letter Density 
+
+// Letter Density Calculation
 function updateLetters(text) {
-  const container = document.querySelector(".density");
-  const seeMore = document.querySelector(".see-more");
   const counts = {};
   let total = 0;
 
@@ -139,58 +132,42 @@ function updateLetters(text) {
       }
     }
 
-    let sorted = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
-    let allLetters = sorted.concat("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter(l => !counts[l]));
+    const sorted = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+    const allLetters = sorted.concat("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter(l => !counts[l]));
 
     document.querySelectorAll(".letter-row").forEach(row => row.remove());
 
     allLetters.forEach(letter => {
-      let count = counts[letter] || 0;
-      let percent = total ? ((count / total) * 100).toFixed(1) : 0;
-
-      let row = document.createElement("div");
-      row.className = "letter-row";
-      row.dataset.letter = letter;
-      row.style.display = showMore ? "flex" : "none";
-
-      row.innerHTML = `
-        <span class="letter-label">${letter}</span>
-        <div class="bar-container"><div class="bar" style="width: ${percent}%"></div></div>
-        <span class="percentage">${count} (${percent}%)</span>
-      `;
-
-      if (count > 0) row.classList.add("highlighted");
-      container.insertBefore(row, seeMore);
+      const count = counts[letter] || 0;
+      const percent = total ? ((count / total) * 100).toFixed(1) : 0;
+      const row = createLetterRow(letter, count, percent);
+      densityContainer.insertBefore(row, seeMoreBtn);
     });
 
     if (!showMore) showTopLetters(5);
   } else {
-    document.querySelectorAll(".letter-row").forEach(row => {
-      row.style.display = "none";
-    });
+    document.querySelectorAll(".letter-row").forEach(row => row.style.display = "none");
   }
 }
 
-function setupLetters() {
-  const container = document.querySelector(".density");
-  const seeMore = document.querySelector(".see-more");
-
-  for (let letter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
-    let row = document.createElement("div");
-    row.className = "letter-row";
-    row.dataset.letter = letter;
-    row.style.display = "none";
-
-    row.innerHTML = `
-      <span class="letter-label">${letter}</span>
-      <div class="bar-container"><div class="bar"></div></div>
-      <span class="percentage">0 (0%)</span>
-    `;
-
-    container.insertBefore(row, seeMore);
-  }
+// Create a letter row
+function createLetterRow(letter, count, percent) {
+  const row = document.createElement("div");
+  row.className = "letter-row";
+  row.dataset.letter = letter;
+  row.style.display = showMore ? "flex" : "none";
+  row.innerHTML = `
+    <span class="letter-label">${letter}</span>
+    <div class="bar-container">
+      <div class="bar" style="width: ${percent}%"></div>
+    </div>
+    <span class="percentage">${count} (${percent}%)</span>
+  `;
+  if (count > 0) row.classList.add("highlighted");
+  return row;
 }
 
+// Toggle Top / All Letters
 function showTopLetters(n) {
   document.querySelectorAll(".letter-row").forEach((row, i) => {
     row.style.display = i < n ? "flex" : "none";
@@ -203,22 +180,26 @@ function showAllLetters() {
   });
 }
 
-let showMore = false;
-document.querySelector(".see-more").addEventListener("click", function () {
+// Setup initial hidden rows
+function setupLetters() {
+  for (let letter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+    const row = createLetterRow(letter, 0, 0);
+    row.style.display = "none";
+    densityContainer.insertBefore(row, seeMoreBtn);
+  }
+}
+
+// See More / See Less
+seeMoreBtn.addEventListener("click", function () {
   showMore = !showMore;
 
-  // Update text
   const textEl = this.querySelector(".see-text");
   textEl.textContent = showMore ? "See less" : "See more";
-
-  // Toggle arrow direction using class
   this.querySelector(".arrow-icon").classList.toggle("rotate-up");
 
-  // Your letter toggling functions
   showMore ? showAllLetters() : showTopLetters(5);
 });
 
-
-// Start
+// Initial setup
 setupLetters();
 updateStats();

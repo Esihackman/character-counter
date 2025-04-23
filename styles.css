@@ -98,14 +98,17 @@ body {
   font-size: 20px;
   margin-bottom: 20px;
    border: 2px solid #D3A0FA; 
-}
+    resize: none;
+  }
+  
+
 
 .text-area.limit-warning {
   border: 1px solid #DA3701;
 }
 .text-area {
   border: 2px solid transparent;
-  transition: border-color 0.3s;
+  /* transition: border-color 0.3s; */
 }
 
 .text-area:hover {
@@ -263,6 +266,7 @@ body.dark-theme .text-area:hover {
 .bar-container {
   flex: 1;
   height: 12px;
+  width:75.9px ;
   background-color: #f2f2f7;
   border-radius: 6px;
   overflow: hidden;
@@ -270,11 +274,11 @@ body.dark-theme .text-area:hover {
 }
 
 .bar {
-  height: 100%;
-  width: 0%; /* This will be updated dynamically via JS */
+  height: 12px;
+  width: 75.9px;
   background-color: #D3A0FA;
-  border-radius: 6px;
-  transition: width 0.3s ease-in-out;
+  border-radius: 999px;
+  
 }
 
 
@@ -287,22 +291,49 @@ body.dark-theme .text-area:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: Regular;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: -0.6px;
   cursor: pointer;
-  color: #2A2B37;
-  transition: color 0.3s;
+  color: #E4E4EF;
+  
 }
 
 .arrow-icon {
-  width: 14px;
-  height: 14px;
-  transition: transform 0.3s ease;
+  display: flex;
+  width: 10px;
+  height: 21px;
+  color: #E4E4EF;
+  
+}
+.limit-input {
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+  padding: 0.4rem 0.6rem;
+  width: 80px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  
 }
 
-/* .rotate-up {
-  transform: rotate(180deg);
-} */
+.limit-input:focus {
+  border-color: #009c4a;
+  
+}
+
+body.dark-theme .limit-input {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  border-color: #444;
+}
+
+body.dark-theme .limit-input:focus {
+  /* border-color: #00d674; */
+  
+}
 
 
 /* When active (expanded) */
@@ -373,12 +404,10 @@ body.dark-theme {
   background-color: #12131A;
 }
 
-
-  body.dark-theme {
-    background: url('./assets/images/bg-dark-theme.png') no-repeat center center fixed;
-    background-size: cover;
-  }
-
+body.dark-theme {
+  background: url('./assets/images/bg-dark-theme.png') no-repeat center center fixed;
+  background-size: cover;
+}
 
 body.dark-theme .icon {
   background-color: #2A2B37;
@@ -412,6 +441,49 @@ body,
 .heading {
   transition: background-color 0.3s, color 0.3s;
 }
+
+/* Letter row text color */
+body.dark-theme .letter-row {
+  color: #F5F5F5;
+}
+
+/* Letter bars - make them visible in dark mode */
+body.dark-theme .letter-row .bar {
+  background-color: #d3a0fa;  
+}
+
+/* Highlighted letter rows */
+body.dark-theme .letter-row.highlighted {
+  color: #F5F5F5;
+}
+
+/* Fix for the arrow icon in dark mode */
+body.dark-theme .arrow-icon {
+  fill: #F5F5F5;
+}
+
+/* Ensure percentage text is visible */
+body.dark-theme .percentage {
+  color: #F5F5F5;
+}
+
+/* Optional: Style for letter labels in dark mode */
+body.dark-theme .letter-label {
+  color: #F5F5F5;
+}
+
+/* Dark theme styling for the density section */
+body.dark-theme .density {
+  background-color: #1f2028; 
+  color: #F5F5F5;  
+}
+
+body.dark-theme .density h2 {
+  color: #F5F5F5; 
+}
+
+
+
 
 /* Animations */
 @keyframes slideIn {

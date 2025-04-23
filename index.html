@@ -29,12 +29,10 @@
         </label>
         <label class="checkbox-label">
           <input type="checkbox" id="set-character-limit" /> Set Character Limit
-          
-        </label>
-      </div>
+           </label>
+      </div> 
       <div class="reading-time">Approx. reading time: 0 minutes</div>
-
-    </div>
+   </div>
     
     <section class="stats-container">
       <div class="stat purple">
@@ -58,6 +56,10 @@
           <div class="stat-value">00 </div>
           <div class="stat-label">Sentence Count</div>
         </div>
+        <div class="limit-message" style="display: none;">
+          <p class="limit-text"></p>
+        </div>
+        
         <img src="./assets/images/pattern-sentence-count.svg" alt="pattern-sentence-count" class="stat-icon" />
       </div>
     </section>
@@ -68,11 +70,11 @@
       
       <div class="see-more">
         <span class="see-text">See more</span>
-        <img src="./assets/images/arrow-down.png" alt="dropdown arrow" class="arrow-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="arrow-icon">
+          <path d="M12 20.5c-0.4 0-0.8-0.2-1.1-0.4l-8-8c-0.6-0.6-0.6-1.5 0-2.1s1.5-0.6 2.1 0L12 17.1l7-7.1c0.6-0.6 1.5-0.6 2.1 0s0.6 1.5 0 2.1l-8 8c-0.3 0.3-0.7 0.4-1.1 0.4z" fill="currentColor"/>
+        </svg>
       </div>
-      
-      
-    </section>
+      </section>
     <script src="script.js"></script>
   </main> 
 </body>

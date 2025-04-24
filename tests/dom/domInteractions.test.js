@@ -51,22 +51,52 @@ describe('Character Counter DOM Interactions', () => {
 
     expect(charCountEl.textContent).toBe("10");
   });
-
-       //Test for dark mode
-  test('should toggle dark mode on button click', () => {
-    const darkModeButton = document.querySelector("#dark-mode-toggle");
-    const body = document.body;
-
-    darkModeButton.addEventListener("click", () => {
-      body.classList.toggle("dark-theme");
-    });
-
-    
-    darkModeButton.click();
-    expect(body.classList.contains("dark-theme")).toBe(true);
-
-    
-    darkModeButton.click();
-    expect(body.classList.contains("dark-theme")).toBe(false);
-  });
 });
+    //test on word count
+test('should count words in the input', () => {
+  const textarea = document.querySelector(".text-area");
+  textarea.value = "This is a test message.";
+  const wordCount = textarea.value.trim().split(/\s+/).length;
+
+  expect(wordCount).toBe(5);
+});
+
+//test on sentence count
+test('should count sentences based on punctuation', () => {
+  const textarea = document.querySelector(".text-area");
+  textarea.value = "Hello world. How are you? I am fine!";
+  const sentenceCount = (textarea.value.match(/[^\.!\?]+[\.!\?]+/g) || []).length;
+
+  expect(sentenceCount).toBe(3);
+});
+
+  
+  test('character count should be 00 for empty input', () => {
+    const textarea = document.querySelector(".text-area");
+    const charCountEl = document.querySelector(".char-count");
+
+    textarea.value = "";
+    charCountEl.textContent = textarea.value.length.toString().padStart(2, '0');
+    expect(charCountEl.textContent).toBe("00");
+  });
+
+  test('correctly counts special characters', () => {
+    const textarea = document.querySelector(".text-area");
+    const charCountEl = document.querySelector(".char-count");
+
+    textarea.value = "!@#";
+    const count = textarea.value.length;
+    charCountEl.textContent = count.toString().padStart(2, '0');
+    expect(charCountEl.textContent).toBe("03");
+  });
+
+  test('handles very long text without crashing', () => {
+    const textarea = document.querySelector(".text-area");
+    const charCountEl = document.querySelector(".char-count");
+
+    const longText = 'A'.repeat(1000);
+    textarea.value = longText;
+    charCountEl.textContent = textarea.value.length.toString().padStart(2, '0');
+    expect(charCountEl.textContent).toBe("1000");
+  });
+

@@ -1,4 +1,4 @@
-describe('Character Counter DOM Updates', () => {
+describe('Character Counter DOM Interactions', () => {
   beforeEach(() => {
     document.body.innerHTML = `
       <textarea class="text-area"></textarea>
@@ -8,7 +8,7 @@ describe('Character Counter DOM Updates', () => {
       <button id="dark-mode-toggle">Toggle Dark Mode</button>
     `;
   });
-
+        // Test to update character count
   test('should update char count in DOM on input', () => {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
@@ -18,7 +18,8 @@ describe('Character Counter DOM Updates', () => {
 
     expect(charCountEl.textContent).toBe("05");
   });
-
+  
+        //Test on warning
   test('should display a warning when character limit is exceeded', () => {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
@@ -36,6 +37,7 @@ describe('Character Counter DOM Updates', () => {
     expect(limitMessage.style.display).toBe("block");
   });
 
+        //Test to exclude spaces
   test('should exclude spaces from character count when the toggle is on', () => {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
@@ -50,6 +52,7 @@ describe('Character Counter DOM Updates', () => {
     expect(charCountEl.textContent).toBe("10");
   });
 
+       //Test for dark mode
   test('should toggle dark mode on button click', () => {
     const darkModeButton = document.querySelector("#dark-mode-toggle");
     const body = document.body;
@@ -58,11 +61,11 @@ describe('Character Counter DOM Updates', () => {
       body.classList.toggle("dark-theme");
     });
 
-    // Simulate click to toggle ON
+    
     darkModeButton.click();
     expect(body.classList.contains("dark-theme")).toBe(true);
 
-    // Simulate click to toggle OFF
+    
     darkModeButton.click();
     expect(body.classList.contains("dark-theme")).toBe(false);
   });

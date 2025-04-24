@@ -1,8 +1,4 @@
-
-function countCharacters(text, excludeSpaces = false) {
-  if (excludeSpaces) {
-    return text.replace(/\s/g, '').length;
-  }
+function countCharacters(text) {
   return text.length;
 }
 
@@ -11,11 +7,11 @@ function countWords(text) {
 }
 
 function countSentences(text) {
-  return text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0).length;
+  return (text.match(/[\.\!\?]+/g) || []).length;
 }
 
 module.exports = {
   countCharacters,
   countWords,
-  countSentences
+  countSentences,
 };

@@ -1,13 +1,7 @@
-/**
- * @jest-environment jsdom
- */
-
-const { countCharacters, countWords, countSentences } = require('../utils');
-
-
+const { countCharacters, countWords, countSentences } = require('../characterCounter');
 describe('Character Counter Functions', () => {
   test('should count characters including spaces', () => {
-    const input = 'Hello world';
+    const input = 'Hello Mabel';
     expect(countCharacters(input)).toBe(11);
   });
 
@@ -30,7 +24,7 @@ describe('Character Counter Functions', () => {
 
   
   test('should handle multiple spaces between words', () => {
-    const input = 'Hello     world   from   Mabel';
+    const input = 'Mabel     is    my      Name';
     expect(countWords(input)).toBe(4);
   });
 

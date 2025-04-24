@@ -337,9 +337,9 @@ body.dark-theme .limit-input:focus {
 
 
 /* When active (expanded) */
-.see-more.active .arrow-icon {
+/* .see-more.active .arrow-icon {
   transform: rotate(180deg);
-}
+} */
 
 
 .progress-active {

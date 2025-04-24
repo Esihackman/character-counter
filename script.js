@@ -201,5 +201,5 @@ seeMoreBtn.addEventListener("click", function () {
 });
 
 // Initial setup
-setupLetters();
+ setupLetters();
 updateStats();

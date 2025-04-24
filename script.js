@@ -1,6 +1,7 @@
 // Selecting DOM Elements 
 const themeBtn = document.getElementById("theme-toggle");
 const textarea = document.querySelector(".text-area");
+const textareaContainer = textarea.closest(".container") || textarea.parentElement; // Get the container
 const charCountEl = document.querySelector(".stat.purple .stat-value");
 const wordCountEl = document.querySelector(".stat.orange .stat-value");
 const sentenceCountEl = document.querySelector(".stat.red .stat-value");
@@ -8,10 +9,29 @@ const readingTimeEl = document.querySelector(".reading-time");
 const noSpacesCheckbox = document.getElementById("exclude-spaces");
 const limitCheckbox = document.getElementById("set-character-limit");
 const emptyMessage = document.querySelector(".empty-message");
-const limitMsg = document.querySelector(".limit-message");
-const limitText = document.querySelector(".limit-text");
 const densityContainer = document.querySelector(".density");
 const seeMoreBtn = document.querySelector(".see-more");
+
+// Check if the limit message elements exist, if not create them
+let limitMsg = document.querySelector(".limit-message");
+let limitText = document.querySelector(".limit-text");
+
+if (!limitMsg) {
+  // Create the limit message element if it doesn't exist
+  limitMsg = document.createElement("div");
+  limitMsg.className = "limit-message";
+  limitMsg.style.display = "none";
+  
+  limitText = document.createElement("span");
+  limitText.className = "limit-text";
+  
+  limitMsg.appendChild(limitText);
+  
+  // Insert after textarea container
+  textareaContainer.parentNode.insertBefore(limitMsg, textareaContainer.nextSibling);
+  
+  console.log("Created limit message elements");
+}
 
 let showMore = false;
 let limitValue = null;
@@ -27,6 +47,11 @@ themeBtn.addEventListener("click", function () {
 
   const logo = document.querySelector(".logo");
   logo.src = darkMode ? "./assets/images/logo-dark-theme.svg" : "./assets/images/logo-light-theme.svg";
+  
+  // Apply the dark mode class to the limit message too (if it exists)
+  if (limitMsg) {
+    limitMsg.classList.toggle("dark-theme");
+  }
 });
 
 // Character Limit Checkbox
@@ -42,7 +67,6 @@ limitCheckbox.addEventListener("change", function () {
 
     input.addEventListener("input", function () {
       limitValue = parseInt(input.value) || null;
-      hideLimitWarning();
       updateStats();
     });
   }
@@ -52,26 +76,17 @@ limitCheckbox.addEventListener("change", function () {
   if (!limitCheckbox.checked) {
     limitValue = null;
     hideLimitWarning();
+  } else {
+    // When checkbox is checked and there's already a value
+    if (input.value) {
+      limitValue = parseInt(input.value);
+      updateStats(); // Check limit immediately
+    }
   }
 });
 
 // Input Listener
 textarea.addEventListener("input", function () {
-  let text = textarea.value;
-  emptyMessage.style.display = text.trim() === "" ? "block" : "none";
-
-  let chars = noSpacesCheckbox.checked ? text.replace(/\s/g, "") : text;
-  let charCount = chars.length;
-
-  if (limitCheckbox.checked && limitValue) {
-    if (charCount > limitValue) {
-      textarea.value = text.slice(0, limitValue);
-      showLimitWarning();
-    } else {
-      hideLimitWarning();
-    }
-  }
-
   updateStats();
 });
 
@@ -79,26 +94,37 @@ noSpacesCheckbox.addEventListener("change", updateStats);
 
 // Show / Hide Limit Warning 
 function showLimitWarning() {
-  textarea.classList.add("container-warning");
+  textareaContainer.classList.add("container-warning"); // Add warning class to container
   charCountEl.parentElement.classList.add("warning");
-  if (limitMsg && limitText) {
-    limitText.textContent = `Limit reached! Your text exceeds ${limitValue} characters.`;
-    limitMsg.style.display = "flex";
+  
+  limitText.textContent = `Limit reached! Your text exceeds ${limitValue} characters.`;
+  limitMsg.style.display = "block";
+  
+  // Apply dark theme class if we're in dark mode
+  if (darkMode) {
+    limitMsg.classList.add("dark-theme");
+  } else {
+    limitMsg.classList.remove("dark-theme");
   }
+  
+  console.log("Showing limit warning, dark mode:", darkMode);
 }
 
 function hideLimitWarning() {
-  textarea.classList.remove("container-warning");
+  textareaContainer.classList.remove("container-warning"); // Remove warning class from container
   charCountEl.parentElement.classList.remove("warning");
-  if (limitMsg) {
-    limitMsg.style.display = "none";
-    if (limitText) limitText.textContent = "";
-  }
+  
+  limitMsg.style.display = "none";
+  limitText.textContent = "";
+  
+  console.log("Hiding limit warning");
 }
 
 // Update Statistics
 function updateStats() {
   let text = textarea.value;
+  emptyMessage.style.display = text.trim() === "" ? "block" : "none";
+  
   let chars = noSpacesCheckbox.checked ? text.replace(/\s/g, "") : text;
   let charCount = chars.length;
   let wordCount = text.trim().split(/\s+/).filter(Boolean).length;
@@ -110,8 +136,25 @@ function updateStats() {
   sentenceCountEl.textContent = String(sentenceCount).padStart(2, '0');
   readingTimeEl.textContent = `Approx. reading time: ${readingTime} minute${readingTime !== 1 ? "s" : ""}`;
 
+  console.log("Checking limit: ", limitCheckbox.checked, limitValue, charCount);
+  
+  // Check limit after updating character count
   if (limitCheckbox.checked && limitValue && charCount > limitValue) {
+    console.log("Limit exceeded!");
     showLimitWarning();
+    
+    // Trim text if it exceeds the limit
+    if (text.length > limitValue) {
+      textarea.value = text.slice(0, limitValue);
+      // Recalculate after trimming
+      chars = noSpacesCheckbox.checked ? textarea.value.replace(/\s/g, "") : textarea.value;
+      charCount = chars.length;
+      charCountEl.textContent = String(charCount).padStart(2, '0');
+      
+      // Don't call updateStats again to avoid recursion
+      updateLetters(textarea.value);
+      return; // Return to avoid infinite recursion
+    }
   } else {
     hideLimitWarning();
   }
@@ -201,5 +244,11 @@ seeMoreBtn.addEventListener("click", function () {
 });
 
 // Initial setup
- setupLetters();
+setupLetters();
 updateStats();
+
+// Check dark mode state initially
+darkMode = document.body.classList.contains("dark-theme");
+if (darkMode && limitMsg) {
+  limitMsg.classList.add("dark-theme");
+}

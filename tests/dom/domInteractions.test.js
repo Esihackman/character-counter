@@ -1,5 +1,5 @@
-describe('Character Counter DOM Interactions', () => {
-  beforeEach(() => {
+describe('Character Counter DOM Interactions', function () {
+  beforeEach(function () {
     document.body.innerHTML = `
       <textarea class="text-area"></textarea>
       <span class="stat-value char-count"></span>
@@ -7,8 +7,8 @@ describe('Character Counter DOM Interactions', () => {
       <input type="checkbox" id="exclude-spaces">
     `;
   });
-        // Test to update character count
-  test('should update char count in DOM on input', () => {
+
+  test('should update char count in DOM on input', function () {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
 
@@ -17,9 +17,8 @@ describe('Character Counter DOM Interactions', () => {
 
     expect(charCountEl.textContent).toBe("05");
   });
-  
-        //Test on warning
-  test('should display a warning when character limit is exceeded', () => {
+
+  test('should display a warning when character limit is exceeded', function () {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
     const limitMessage = document.querySelector(".limit-message");
@@ -36,8 +35,7 @@ describe('Character Counter DOM Interactions', () => {
     expect(limitMessage.style.display).toBe("block");
   });
 
-        //Test to exclude spaces
-  test('should exclude spaces from character count when the toggle is on', () => {
+  test('should exclude spaces from character count when the toggle is on', function () {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
     const excludeSpacesCheckbox = document.querySelector("#exclude-spaces");
@@ -50,27 +48,24 @@ describe('Character Counter DOM Interactions', () => {
 
     expect(charCountEl.textContent).toBe("10");
   });
-});
-    //test on word count
-test('should count words in the input', () => {
-  const textarea = document.querySelector(".text-area");
-  textarea.value = "This is a test message.";
-  const wordCount = textarea.value.trim().split(/\s+/).length;
 
-  expect(wordCount).toBe(5);
-});
+  test('should count words in the input', function () {
+    const textarea = document.querySelector(".text-area");
+    textarea.value = "This is a test message.";
+    const wordCount = textarea.value.trim().split(/\s+/).length;
 
-//test on sentence count
-test('should count sentences based on punctuation', () => {
-  const textarea = document.querySelector(".text-area");
-  textarea.value = "Hello world. How are you? I am fine!";
-  const sentenceCount = (textarea.value.match(/[^\.!\?]+[\.!\?]+/g) || []).length;
+    expect(wordCount).toBe(5);
+  });
 
-  expect(sentenceCount).toBe(3);
-});
+  test('should count sentences based on punctuation', function () {
+    const textarea = document.querySelector(".text-area");
+    textarea.value = "Hello world. How are you? I am fine!";
+    const sentenceCount = (textarea.value.match(/[^\.!\?]+[\.!\?]+/g) || []).length;
 
-    //test on empty input
-  test('character count should be 00 for empty input', () => {
+    expect(sentenceCount).toBe(3);
+  });
+
+  test('character count should be 00 for empty input', function () {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
 
@@ -78,8 +73,8 @@ test('should count sentences based on punctuation', () => {
     charCountEl.textContent = textarea.value.length.toString().padStart(2, '0');
     expect(charCountEl.textContent).toBe("00");
   });
-    //test on special characters
-  test('correctly counts special characters', () => {
+
+  test('correctly counts special characters', function () {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
 
@@ -88,15 +83,14 @@ test('should count sentences based on punctuation', () => {
     charCountEl.textContent = count.toString().padStart(2, '0');
     expect(charCountEl.textContent).toBe("03");
   });
-     
-  //test to handle long test without breaking
-  test('handles very long text without crashing', () => {
+
+  test('handles very long text without crashing', function () {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
 
     const longText = 'A'.repeat(100);
     textarea.value = longText;
     charCountEl.textContent = textarea.value.length.toString().padStart(2, '0');
-    expect(charCountEl.textContent).toBe("100"); 
+    expect(charCountEl.textContent).toBe("100");
   });
-
+});

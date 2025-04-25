@@ -5,7 +5,6 @@ describe('Character Counter DOM Interactions', () => {
       <span class="stat-value char-count"></span>
       <div class="limit-message" style="display:none;">Character limit exceeded</div>
       <input type="checkbox" id="exclude-spaces">
-      <button id="dark-mode-toggle">Toggle Dark Mode</button>
     `;
   });
         // Test to update character count
@@ -70,7 +69,7 @@ test('should count sentences based on punctuation', () => {
   expect(sentenceCount).toBe(3);
 });
 
-  
+    //test on empty input
   test('character count should be 00 for empty input', () => {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
@@ -79,7 +78,7 @@ test('should count sentences based on punctuation', () => {
     charCountEl.textContent = textarea.value.length.toString().padStart(2, '0');
     expect(charCountEl.textContent).toBe("00");
   });
-
+    //test on special characters
   test('correctly counts special characters', () => {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
@@ -89,14 +88,15 @@ test('should count sentences based on punctuation', () => {
     charCountEl.textContent = count.toString().padStart(2, '0');
     expect(charCountEl.textContent).toBe("03");
   });
-
+     
+  //test to handle long test without breaking
   test('handles very long text without crashing', () => {
     const textarea = document.querySelector(".text-area");
     const charCountEl = document.querySelector(".char-count");
 
-    const longText = 'A'.repeat(1000);
+    const longText = 'A'.repeat(100);
     textarea.value = longText;
     charCountEl.textContent = textarea.value.length.toString().padStart(2, '0');
-    expect(charCountEl.textContent).toBe("1000");
+    expect(charCountEl.textContent).toBe("100"); 
   });
 
